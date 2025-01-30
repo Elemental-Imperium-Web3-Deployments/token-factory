@@ -1,6 +1,7 @@
 # Dependencies
 node_modules
 .pnp.*
+pnpm-lock.yaml
 .npm
 .yarn/*
 !.yarn/patches
