@@ -7,11 +7,15 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./interfaces/IBridge.sol";
+import "./interfaces/ITrading.sol";
+import "./interfaces/IDApp.sol";
 
 error InvalidSwapAmount();
 error InvalidMirrorAmount();
 error FlashLoanNotRepaid();
 error BridgeError();
+error UnauthorizedBot();
+error DAppNotRegistered();
 
 contract SolaceToken is ERC20, ERC20Burnable, AccessControl, Pausable, ReentrancyGuard, IBridge, ITrading, IDApp {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -113,6 +117,85 @@ contract SolaceToken is ERC20, ERC20Burnable, AccessControl, Pausable, Reentranc
 
     function unpause() public onlyRole(PAUSER_ROLE) {
         _unpause();
+    }
+
+    // Trading Bot Interface Implementation
+    mapping(address => string) private botTypes;
+    mapping(address => bool) private registeredBots;
+
+    function registerBot(address bot, string calldata botType) external override onlyRole(DEFAULT_ADMIN_ROLE) {
+        registeredBots[bot] = true;
+        botTypes[bot] = botType;
+        emit BotRegistered(bot, botType);
+    }
+
+    function deregisterBot(address bot) external override onlyRole(DEFAULT_ADMIN_ROLE) {
+        registeredBots[bot] = false;
+        emit BotDeregistered(bot);
+    }
+
+    function isBotRegistered(address bot) external view override returns (bool) {
+        return registeredBots[bot];
+    }
+
+    function getBotType(address bot) external view override returns (string memory) {
+        return botTypes[bot];
+    }
+
+    function executeTrade(
+        address tokenIn,
+        address tokenOut,
+        uint256 amountIn,
+        uint256 minAmountOut,
+        bytes calldata data
+    ) external override returns (uint256 amountOut) {
+        require(registeredBots[msg.sender] || hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Unauthorized");
+        // Implementation for specific trading logic
+        amountOut = minAmountOut; // Placeholder, actual implementation would include DEX integration
+        emit TradeExecuted(msg.sender, tokenIn, tokenOut, amountIn, amountOut);
+        return amountOut;
+    }
+
+    // DApp Interface Implementation
+    mapping(address => string) private dappTypes;
+    mapping(address => string) private dappMetadata;
+    mapping(address => bool) private registeredDApps;
+
+    function registerDApp(
+        string calldata dappType,
+        string calldata metadata
+    ) external override returns (bool) {
+        registeredDApps[msg.sender] = true;
+        dappTypes[msg.sender] = dappType;
+        dappMetadata[msg.sender] = metadata;
+        emit DAppRegistered(msg.sender, dappType, metadata);
+        return true;
+    }
+
+    function deregisterDApp() external override returns (bool) {
+        registeredDApps[msg.sender] = false;
+        emit DAppDeregistered(msg.sender);
+        return true;
+    }
+
+    function isDAppRegistered(address dapp) external view override returns (bool) {
+        return registeredDApps[dapp];
+    }
+
+    function getDAppMetadata(address dapp) external view override returns (
+        string memory dappType,
+        string memory metadata
+    ) {
+        return (dappTypes[dapp], dappMetadata[dapp]);
+    }
+
+    function interactWithDApp(
+        address dapp,
+        bytes calldata data
+    ) external override returns (bytes memory) {
+        require(registeredDApps[dapp], "DApp not registered");
+        emit DAppInteraction(dapp, msg.sender, data);
+        return data; // Placeholder, actual implementation would process the interaction
     }
 
     function _beforeTokenTransfer(
