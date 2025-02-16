@@ -1,5 +1,5 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+import "@nomiclabs/hardhat-waffle";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -9,11 +9,6 @@ const config: HardhatUserConfig = {
         enabled: true,
         runs: 200
       }
-    }
-  },
-  networks: {
-    hardhat: {
-      chainId: 1337
     }
   }
 };
