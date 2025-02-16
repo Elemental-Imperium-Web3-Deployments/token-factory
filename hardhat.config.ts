@@ -16,12 +16,7 @@ const config: HardhatUserConfig = {
     }
   },
   networks: {
-    hardhat: {
-      forking: {
-        url: MAINNET_RPC_URL,
-        blockNumber: 19000000
-      }
-    },
+    hardhat: {},
     mainnet: {
       url: MAINNET_RPC_URL,
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
