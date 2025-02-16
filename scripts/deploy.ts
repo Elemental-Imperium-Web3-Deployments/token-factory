@@ -1,26 +1,37 @@
-import { ethers, upgrades } from "hardhat";
+import { ethers } from "hardhat";
 
 async function main() {
-    // Deploy Price Feed Aggregator
-    const PriceFeedAggregator = await ethers.getContractFactory("PriceFeedAggregator");
-    const priceFeedAggregator = await PriceFeedAggregator.deploy();
-    await priceFeedAggregator.waitForDeployment();
-    console.log("PriceFeedAggregator deployed to:", await priceFeedAggregator.getAddress());
+    const [deployer] = await ethers.getSigners();
+    console.log("Deploying contracts with the account:", deployer.address);
 
-    // Deploy Token Factory
-    const Factory = await ethers.getContractFactory("SyntheticTokenFactory");
-    const factory = await upgrades.deployProxy(Factory);
-    await factory.waitForDeployment();
-    console.log("SyntheticTokenFactory deployed to:", await factory.getAddress());
+    const SolaceToken = await ethers.getContractFactory("SolaceToken");
+    const token = await SolaceToken.deploy();
+    await token.deployed();
 
-    // Deploy Governance
-    const Governance = await ethers.getContractFactory("TokenFactoryGovernance");
-    const governance = await Governance.deploy(await factory.getAddress());
-    await governance.waitForDeployment();
-    console.log("TokenFactoryGovernance deployed to:", await governance.getAddress());
+    console.log("SolaceToken deployed to:", token.address);
+
+    // Mint initial supply (100,000 ETH worth)
+    const initialSupply = ethers.utils.parseEther("100000");
+    await token.mint(deployer.address, initialSupply);
+    
+    console.log("Initial supply minted:", ethers.utils.formatEther(initialSupply), "tokens");
+    
+    // Verify roles are set correctly
+    const minterRole = await token.MINTER_ROLE();
+    const bridgeRole = await token.BRIDGE_ROLE();
+    const pauserRole = await token.PAUSER_ROLE();
+    const mirrorRole = await token.MIRROR_ROLE();
+    
+    console.log("Roles verification:");
+    console.log("- Minter role assigned:", await token.hasRole(minterRole, deployer.address));
+    console.log("- Bridge role assigned:", await token.hasRole(bridgeRole, deployer.address));
+    console.log("- Pauser role assigned:", await token.hasRole(pauserRole, deployer.address));
+    console.log("- Mirror role assigned:", await token.hasRole(mirrorRole, deployer.address));
 }
 
-main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-});
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
