@@ -1,8 +1,7 @@
 import { expect } from "chai";
-import { ethers, waffle } from "hardhat";
+import { ethers } from "hardhat";
 import { Contract } from "ethers";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { expect } from "chai";
 import "@nomiclabs/hardhat-waffle";
 
 describe("SolaceToken Trading and DApp Integration", function () {
