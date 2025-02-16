@@ -10,8 +10,8 @@ async function main() {
 
     console.log("SolaceToken deployed to:", token.address);
 
-    // Mint initial supply (100,000 ETH worth)
-    const initialSupply = ethers.utils.parseEther("100000");
+    // Mint initial supply (500 BTC worth @ ~52k USD/BTC = ~26M USD)
+    const initialSupply = ethers.utils.parseEther("26000000");
     await token.mint(deployer.address, initialSupply);
     
     console.log("Initial supply minted:", ethers.utils.formatEther(initialSupply), "tokens");

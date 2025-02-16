@@ -13,7 +13,7 @@ error InvalidMirrorAmount();
 error FlashLoanNotRepaid();
 error BridgeError();
 
-contract SolaceToken is ERC20, ERC20Burnable, AccessControl, Pausable, ReentrancyGuard, IBridge {
+contract SolaceToken is ERC20, ERC20Burnable, AccessControl, Pausable, ReentrancyGuard, IBridge, ITrading, IDApp {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BRIDGE_ROLE = keccak256("BRIDGE_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
