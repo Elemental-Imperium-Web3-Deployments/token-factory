@@ -18,15 +18,11 @@ async function main() {
     
     // Verify roles are set correctly
     const minterRole = await token.MINTER_ROLE();
-    const bridgeRole = await token.BRIDGE_ROLE();
     const pauserRole = await token.PAUSER_ROLE();
-    const mirrorRole = await token.MIRROR_ROLE();
     
     console.log("Roles verification:");
     console.log("- Minter role assigned:", await token.hasRole(minterRole, deployer.address));
-    console.log("- Bridge role assigned:", await token.hasRole(bridgeRole, deployer.address));
     console.log("- Pauser role assigned:", await token.hasRole(pauserRole, deployer.address));
-    console.log("- Mirror role assigned:", await token.hasRole(mirrorRole, deployer.address));
 }
 
 main()
