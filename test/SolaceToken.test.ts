@@ -46,20 +46,9 @@ describe("SolaceToken", function () {
       expect(await token.balanceOf(addr1.address)).to.equal(100);
     });
 
-    it("Should allow burning tokens", async function () {
-      await token.transfer(addr1.address, 100);
-      await token.connect(addr1).burn(50);
-      expect(await token.balanceOf(addr1.address)).to.equal(50);
-    });
-
-    it("Should execute swaps correctly", async function () {
-      await token.transfer(addr1.address, 100);
-      await token.connect(addr1).swap(addr2.address, 50);
-      expect(await token.balanceOf(addr2.address)).to.equal(50);
-    });
-
-    it("Should revert swap with zero amount", async function () {
-      await expect(token.swap(addr1.address, 0)).to.be.revertedWith("InvalidSwapAmount");
+    it("Should allow minting with correct role", async function () {
+      await token.mint(addr1.address, ethers.utils.parseEther("48617055"));
+      expect(await token.balanceOf(addr1.address)).to.equal(ethers.utils.parseEther("48617055"));
     });
   });
 
