@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@tatumio/tatum':
-        specifier: 4.2.45
-        version: 4.2.45
+        specifier: 4.2.49
+        version: 4.2.49
     devDependencies:
       '@nomicfoundation/hardhat-chai-matchers':
         specifier: ^1.0.6
@@ -505,8 +505,8 @@ packages:
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
 
-  '@tatumio/tatum@4.2.45':
-    resolution: {integrity: sha512-IuaVnPzGEk8xtR3GD137i0jgdnXYvM8Z4Mtoem0ZC4bcXSdGujFRoseltJStYQGNqSeUdqBjTYl2Lih/j9TQUw==}
+  '@tatumio/tatum@4.2.49':
+    resolution: {integrity: sha512-QgjPTpyRO1X+bGVaioBlCRTVh7N7F/BSlqVfsEsDGL0tGed6hbwmXuDAUdlcb4KHXumx64CPZYIGaD/KWUpleQ==}
     engines: {node: '>=18.0.0'}
 
   '@tsconfig/node10@1.0.11':
@@ -624,8 +624,8 @@ packages:
   '@types/sinon-chai@3.2.12':
     resolution: {integrity: sha512-9y0Gflk3b0+NhQZ/oxGtaAJDvRywCa5sIyaVnounqLvmf93yBF4EgIRspePtkMs3Tr844nCclYMlcCNmLCvjuQ==}
 
-  '@types/sinon@17.0.3':
-    resolution: {integrity: sha512-j3uovdn8ewky9kRBG19bOwaZbexJu/XjtkHyjvUgt4xfPFz18dcORIMqnYh66Fx3Powhcr85NT5+er3+oViapw==}
+  '@types/sinon@17.0.4':
+    resolution: {integrity: sha512-RHnIrhfPO3+tJT0s7cFaXGZvsL4bbR3/k7z3P312qMS4JaS2Tk+KiwiLx1S0rQ56ERj00u1/BtdyVd0FY+Pdew==}
 
   '@types/sinonjs__fake-timers@8.1.5':
     resolution: {integrity: sha512-mQkU2jY8jJEF7YHjHvsQO8+3ughTL1mcnn96igfhONmR+fUPSKIkefQYpSe8bsly2Ep7oQbn/6VG5/9/0qcArQ==}
@@ -5358,7 +5358,7 @@ snapshots:
       defer-to-connect: 2.0.1
     optional: true
 
-  '@tatumio/tatum@4.2.45':
+  '@tatumio/tatum@4.2.49':
     dependencies:
       bignumber.js: 9.1.2
       chalk: 4.1.2
@@ -5491,9 +5491,9 @@ snapshots:
   '@types/sinon-chai@3.2.12':
     dependencies:
       '@types/chai': 4.3.20
-      '@types/sinon': 17.0.3
+      '@types/sinon': 17.0.4
 
-  '@types/sinon@17.0.3':
+  '@types/sinon@17.0.4':
     dependencies:
       '@types/sinonjs__fake-timers': 8.1.5
 
